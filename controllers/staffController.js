@@ -115,3 +115,50 @@ exports.update = async (req, res)=>{
                    })
 }
 
+//Change Staff Password
+exports.change_password = async (req, res) => {
+
+    var salt = bcrypt.genSaltSync(10);
+    var hash = bcrypt.hashSync(req.body.password, salt);
+   try{ 
+       let passupdate = await Staff.findByIdAndUpdate(res.staffData._id, {
+      password: hash
+      //res.staffData._id comes from the Token: thus data is picked from the token
+    })
+        passupdate.save()
+        return res.status(200).json({success: true})
+    } catch(e){
+        return res.status(500).json({message: 'Could not change password'})
+    }
+  }
+
+  //Delete Staff
+  exports.destroy = (req, res) => {
+    Staff.findOneAndDelete({ _id: req.params.id })
+      .then((result) => {
+  
+        if (!result)  {
+          return res.status(404).json({message: 'Staff Not Found'})
+        }
+        return res.status(204).json({message: 'deleted'});
+      })
+      .catch((err) => {
+        if (err.kind == "ObjectId")
+          return res.status(404).json({ message: "Staff not Found" });
+        res.status(500).json({ message: "Could not delete staff" });
+      });
+  };
+
+//Show All Staff
+exports.show = (req, res) => {
+    Staff.findById(req.params.id)
+    .exec()
+    .then(staff => {
+      if (!staff) return res.status(404).json({message: 'Staff Not Found'})
+      res.status(200).json({staff})
+    })
+    .catch(err => {
+      res.status(500).json({message: 'Could not access staff data'})
+    })
+  }
+  

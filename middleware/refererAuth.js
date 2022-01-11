@@ -10,19 +10,25 @@ module.exports = (req, res, next) => {
 
     res.staffData = decoded;
 
-    
+    console.log(decoded);
     Staff.find({ email: decoded.email })
       .exec()
       .then((data) => {
-        if (data[0].role !== "Super") {
-          return res.status(401).json({ message: "Unauthorized" });
+          console.log(data[0]);
+        if (data[0].role !== "referer") {
+           res.status(401).json({ message: "Unauthorized" });
+           next();
+        } else {
+            next();
         }
       });
 
-    next();
+    
   } catch (err) {
     res.status(403).json({
       message: "Unauthenticated",
     });
+    next();
   }
+ 
 };
