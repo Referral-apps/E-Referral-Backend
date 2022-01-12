@@ -7,8 +7,7 @@ const superAdminAuth = require('../middleware/superAdminAuth');
 
 const staffController = require('../controllers/staffController');
 
-// router.post('/staff/register', auth, staffController.register);
-router.post('/staff/register', staffController.register);
+router.post('/staff/register', auth, staffController.register);
 
 router.post('/staff/login', staffController.login);
 
