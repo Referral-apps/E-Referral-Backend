@@ -27,7 +27,7 @@ let connectRemote = async () => {
 };
 
 if (process.env.NODE_ENV == "development") connectLocal();
-// else connectRemote();
+else connectRemote();
 
 mongoose.Promise = global.Promise;
 
