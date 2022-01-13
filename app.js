@@ -19,9 +19,6 @@ app.use(cors({
 //     next()
 // })
 
-app.use(cors({
-    origin:'*'
-}))
 
 
 app.use(express.json())
