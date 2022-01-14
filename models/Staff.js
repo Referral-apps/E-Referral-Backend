@@ -13,8 +13,8 @@ const StaffSchema = mongoose.Schema({
         required: true
     },
     contact: {
-        type: String, 
-        required: true
+        type: String 
+        
     },
     region:{
         type: String, 

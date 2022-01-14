@@ -13,7 +13,7 @@ router.post('/facility/register', auth, facilityController.register);
 
 router.patch('/facility/update/:id', auth, facilityController.update);
 
-router.get('/facility/update/:id', auth, facilityController.findfacility);
+router.get('/facility/find/:id', auth, facilityController.findfacility);
 
 router.get('/facility/allfacilities/', auth, facilityController.allfacilities);
 
