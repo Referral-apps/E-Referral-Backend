@@ -3,6 +3,9 @@ const cors = require('cors')
 
 const staffRoutes = require('./routes/staffRoutes')
 
+const facilityRoutes = require('./routes/facilityRoutes')
+
+
 require('dotenv').config()
 
 //Connect to DB
@@ -12,21 +15,21 @@ const app = express()
 
 app.use(cors({
     origin:'*'
-}))
-
-// app.use((req, res, next)=>{
-//     res.header("Access-Control-Allow-Origin", "*")
-//     next()
-// })
+}));
 
 
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(staffRoutes);
 
-app.use(staffRoutes)
+app.use(facilityRoutes);
+
+//API Reference
 
 app.use('/api', staffRoutes)
+app.use('/api', facilityRoutes)
+
 
 app.use('/', (req, res, next)=>{
     res.status(200).json({message: 'E-Referral API is running'})

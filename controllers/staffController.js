@@ -71,22 +71,21 @@ exports.register = async(req, res)=>{
 
 
 //Update Staff Controller 
-exports.update = async (req, res)=>{
 
-    let id = await Staff.findById(req.params.id)
-    if(!id){
-        return res.status(404).json({message:"Staff not found"});
-    }
+exports.update = (req, res) => {
+  Staff.findById(req.params.id).then((result) => {
+    if (!result) return res.status(404).json({ message: "Staff not Found" });
+  });
+  Staff.find({ email: req.body.email })
+    .exec()
+    .then((docs) => {
+      if (docs.length > 1)
+        return res.status(422).json({ message: "Staff Email already exist" });
+    });
 
-    let staff = await Staff.find({email: req.body.email}); 
-    console.log(staff[0].email)
-    
-    if(staff.length>1)
-        return res.status(422).json({message: "Staff Email already exists"});
-
-    let updateUser = await Staff.findOneAndUpdate(
-        {_id: req.params.id},
-        {
+  Staff.findOneAndUpdate(
+    { _id: req.params.id },
+    {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             middleName: req.body.middleName,
@@ -97,23 +96,68 @@ exports.update = async (req, res)=>{
             district: req.body.district,
             facility: req.body.facility,
             signature: req.body.signature
+    },
+    { new: true }
+  )
+    .then((staff) => {
+      Staff.findById(req.params.id).then((staff) => {
+        return res.status(200).json({ staff: staff });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      if (err.kind == "ObjectId")
+        return res.status(404).json({ message: "Staff Not Found" });
+    });
+};
 
-        }, { new: true}
-        );
-        updateUser.save()
-                   .then((result)=>{
-                       console.log(result)
-                       return res.status(200).json({staff: result});
-                    // Staff.findById(req.params.id).then((result)=> {
-                    //     return res.status(200).json({staff: result});
-                    // });
-                   }) 
-                   .catch((err)=>{
-                       console.log(err);
-                       if(err.kind==="ObjectID")
-                        return res.status(404).json({message: "Staff Not Found"})
-                   })
-}
+//
+
+//Shows Errors
+
+// exports.update = async (req, res)=>{
+
+//     let id = await Staff.findById(req.params.id)
+//     if(!id){
+//         return res.status(404).json({message:"Staff not found"});
+//     }
+
+//     let staff = await Staff.find({email: req.body.email}); 
+//     console.log(staff[0].email)
+    
+//     if(staff.length>1)
+//         return res.status(422).json({message: "Staff Email already exists"});
+
+//     let updateUser = await Staff.findOneAndUpdate(
+//         {_id: req.params.id},
+//         {
+//             firstName: req.body.firstName,
+//             lastName: req.body.lastName,
+//             middleName: req.body.middleName,
+//             email: req.body.email,
+//             role: req.body.role,
+//             contact: req.body.contact,
+//             region: req.body.region,
+//             district: req.body.district,
+//             facility: req.body.facility,
+//             signature: req.body.signature
+
+//         }, { new: true}
+//         );
+//         updateUser.save()
+//                    .then((result)=>{
+//                        console.log(result)
+//                        return res.status(200).json({staff: result});
+//                     // Staff.findById(req.params.id).then((result)=> {
+//                     //     return res.status(200).json({staff: result});
+//                     // });
+//                    }) 
+//                    .catch((err)=>{
+//                        console.log(err);
+//                        if(err.kind==="ObjectID")
+//                         return res.status(404).json({message: "Staff Not Found"})
+//                    })
+// }
 
 //Change Staff Password
 exports.change_password = async (req, res) => {
@@ -149,7 +193,7 @@ exports.change_password = async (req, res) => {
       });
   };
 
-//Show All Staff
+//Show Staff
 exports.show = (req, res) => {
     Staff.findById(req.params.id)
     .exec()
