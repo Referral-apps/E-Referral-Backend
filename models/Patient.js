@@ -11,12 +11,11 @@ const PatientSchema = mongoose.Schema({
         type: Date,
         default: new Date()
     },
-
-    refering_facility: {
+    facility_referred_to: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Facility'
     },
-    facility_referred: {
+    facility_referred_from: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Facility'
     },
@@ -41,7 +40,7 @@ const PatientSchema = mongoose.Schema({
     },
     dob:{
         type: Date,
-        default: new Date``
+        default: new Date()
     },
     insurance:{
         type: String,
@@ -87,12 +86,8 @@ const PatientSchema = mongoose.Schema({
     },
     commitment_for_next_level:{
         type:String
-    },
-    Officer: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Staff'
     }
-    
+  
 })
 
 PatientSchema.plugin(AutoIncrement, {inc_field: 'id'})

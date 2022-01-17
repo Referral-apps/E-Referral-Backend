@@ -5,6 +5,8 @@ const staffRoutes = require('./routes/staffRoutes')
 
 const facilityRoutes = require('./routes/facilityRoutes')
 
+const patientRoutes = require('./routes/patientRoutes')
+
 
 require('dotenv').config()
 
@@ -21,15 +23,18 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+//Initializing Routes
 app.use(staffRoutes);
 
 app.use(facilityRoutes);
+
+app.use(patientRoutes);
 
 //API Reference
 
 app.use('/api', staffRoutes)
 app.use('/api', facilityRoutes)
-
+app.use('/api', patientRoutes)
 
 app.use('/', (req, res, next)=>{
     res.status(200).json({message: 'E-Referral API is running'})
