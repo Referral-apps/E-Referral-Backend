@@ -69,6 +69,7 @@ exports.allfacilities = async(req, res)=>{
             }
 }
 
+//Delet facility
 // exports.deletefacility = async(req, res)=>{
 //     facility = await Facility.findOneAndDelete({_id: req.params.id})
 //         try{
