@@ -1,13 +1,10 @@
 const Patient = require('../models/Patient')
 
-
-
 exports.register = async (req, res)=>{
   try{
     const patient = new Patient ({
-        regno: req.body.regno,
         facility_referred_to: req.body.facility_referred_to_id,
-        // facility_referred_from: req.facility_referred_from,
+        facility_referred_from: req.body.facility_referred_from_id,
         firstname: req.body.firstname,
         middlename: req.body.middlename,
         lastname: req.body.lastname,
@@ -26,9 +23,9 @@ exports.register = async (req, res)=>{
         treatment: req.body.treatment,
         reason_for_referral: req.body.reason_for_referral,
         commitment_for_next_level: req.body.commitment_for_next_level,
-        // officer: req.user._id
+        officer: req.body.officer_id
     })
-    
+    console.log(patient)
     try{
         patient.save()
                 .then((patient)=>{

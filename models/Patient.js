@@ -2,11 +2,6 @@ const mongoose = require('mongoose')
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const PatientSchema = mongoose.Schema({
-    regno:{
-        type: String,
-        required: true
-    }, 
-
     created: {
         type: Date,
         default: new Date()
@@ -86,6 +81,10 @@ const PatientSchema = mongoose.Schema({
     },
     commitment_for_next_level:{
         type:String
+    },
+    officer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Staff'
     }
   
 })
