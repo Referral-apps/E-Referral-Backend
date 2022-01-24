@@ -202,7 +202,18 @@ exports.show = (req, res) => {
       res.status(200).json({staff})
     })
     .catch(err => {
-      res.status(500).json({message: 'Could not access staff data'})
+      res.status(500).json({message: 'Could not access staff datae'})
     })
   }
-  
+
+  //Show All Staff
+  exports.showall = (req, res)=>{
+    Staff.find()
+      .exec()
+      .then(staff =>{
+        res.status(200).json({staff})
+      })
+      .catch(err =>{
+        res.status(500).json({message: "Could not access staff dataS"})
+      })
+  }

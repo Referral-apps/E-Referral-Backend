@@ -17,6 +17,8 @@ router.patch('/staff/change-password/', auth, staffController.change_password);
 
 router.delete('/staff/delete/:id', superAdminAuth, staffController.destroy);
 
-router.get('/staff/:id', auth, staffController.show)
+router.get('/staff/show/:id', auth, staffController.show)
+
+router.get('/staff/showall', auth, staffController.showall)
 
 module.exports = router;
