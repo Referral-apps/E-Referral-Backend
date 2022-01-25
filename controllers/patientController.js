@@ -56,8 +56,8 @@ exports.allPatients = (req, res)=>{
 }
 
 //Kindly err.kind Error
-exports.update = (req, res)=>{
-        Patient.findOne({id: req.params.id})
+exports.update = (req, res)=>{   
+    Patient.findOne({id: req.params.id})
             .exec()
             .then((patient)=>{
                 if(!patient) return res.status(404).json({message: "Patient cannot found"})
@@ -96,5 +96,35 @@ exports.update = (req, res)=>{
                 console.log(err);
                 if (err.kind == "ObjectId")
                   return res.status(404).json({ message: "Patient Not Found" });
+                res.status(500).json({message: "Invalid Id or Id related error"})
               });
+}
+
+exports.showone = (req, res)=>{
+        Patient.findOne({id: req.params.id})
+        .exec()
+        .then((patient)=>{
+                if(!patient) return res.status(404).json({message: "Patient Not Found"})
+            res.status(200).json({patient:patient})
+        })
+        .catch((err)=>{
+            console.log(err)
+            if(err.kind=="ObjectId")
+                return res.status(404).json({message:"Patient Not Found"})
+            res.status(500).json({message: "Invalid Id or Id related error"});
+        })
+}
+
+exports.deletepatient = (req, res)=>{
+    Patient.findOneAndDelete({id: req.params.id})
+        .exec()
+        .then((patient)=>{
+                if(!patient) return res.status(404).json({message: "Patient Not Found"})
+            res.status(204).json({message: "Deleted"})
+        })
+        .catch((err)=>{
+            if(err.kind=="ObjectId")
+                return res.status(404).json({message: "Patient Not Found"})
+            res.status(500).json({message: "Invalid ID or ID related error"})
+        })
 }
