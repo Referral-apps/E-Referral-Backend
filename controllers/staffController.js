@@ -52,7 +52,7 @@ exports.register = async(req, res)=>{
                 password: hash, 
                 region: req.body.region,
                 district: req.body.district,
-                facility: req.body.facility,
+                facility: req.body.facility_id,
                 signature: req.body.signature
             })
             user.save()

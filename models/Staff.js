@@ -24,7 +24,8 @@ const StaffSchema = mongoose.Schema({
         type: String
     },
     facility: {
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Facility"
      },
      role:{
          type: String,

@@ -85,6 +85,14 @@ const PatientSchema = mongoose.Schema({
     officer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Staff'
+    },
+    accepted : {
+        type: Boolean,
+        default: false
+    },
+    forwarding: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ForwardDetails"
     }
   
 })

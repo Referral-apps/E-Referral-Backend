@@ -23,9 +23,10 @@ exports.register = async (req, res)=>{
         treatment: req.body.treatment,
         reason_for_referral: req.body.reason_for_referral,
         commitment_for_next_level: req.body.commitment_for_next_level,
-        officer: req.body.officer_id
+        officer: req.body.officer_id,
+        accepted
     })
-    // console.log(patient)
+  
     try{
         patient.save()
                 .then((patient)=>{
