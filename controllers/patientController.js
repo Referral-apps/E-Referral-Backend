@@ -23,8 +23,7 @@ exports.register = async (req, res)=>{
         treatment: req.body.treatment,
         reason_for_referral: req.body.reason_for_referral,
         commitment_for_next_level: req.body.commitment_for_next_level,
-        officer: req.body.officer_id,
-        accepted
+        officer: req.body.officer_id  
     })
   
     try{
@@ -128,4 +127,60 @@ exports.deletepatient = (req, res)=>{
                 return res.status(404).json({message: "Patient Not Found"})
             res.status(500).json({message: "Invalid ID or ID related error"})
         })
+}
+
+
+exports.acceptreferral = (req, res)=>{   
+    Patient.findOne({id: req.params.id})
+            .exec()
+            .then((patient)=>{
+                if(!patient) return res.status(404).json({message: "Patient cannot found"})
+                Patient.updateOne(
+                    {id: req.params.id},
+                    {
+                        accepted: req.body.accepted
+                    }
+                ) .then(update=>{
+                    Patient.findOne({id: req.params.id}).then(patient=>{
+                        return res.status(200).json({patient})
+                    })
+                })
+            })
+            .catch((err) => {
+                console.log(err);
+                if (err.kind == "ObjectId")
+                  return res.status(404).json({ message: "Patient Not Found" });
+                res.status(500).json({message: "Invalid Id or Id related error"})
+              });
+}
+
+exports.forwardreferral=(req, res)=>{
+    Patient.findOne({id: req.params.id})
+    .exec()
+    .then((patient)=>{
+        if(!patient) return res.status(404).json({message: "Patient cannot found"})
+        Patient.updateOne(
+            {id: req.params.id},
+            {
+            forward: req.body.forward,
+            forwardDetails: {
+                forward: req.body.forward,
+                forwardingFacility: req.body.forwardingFacility_id,
+                forwardingTo: req.body.forwardingTo_id,
+                reason: req.body.reason
+            },
+            accepted:false
+            }
+        ) .then(update=>{
+            Patient.findOne({id: req.params.id}).then(patient=>{
+                return res.status(200).json({patient})
+            })
+        })
+    })
+    .catch((err) => {
+        console.log(err);
+        if (err.kind == "ObjectId")
+          return res.status(404).json({ message: "Patient Not Found" });
+        res.status(500).json({message: "Invalid Id or Id related error"})
+      });
 }

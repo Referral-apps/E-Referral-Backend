@@ -90,9 +90,26 @@ const PatientSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-    forwarding: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "ForwardDetails"
+    forward:{
+        type: Boolean, 
+        default: false
+    },
+    forwardDetails: {
+        forwardingFacility: {
+            type: mongoose.Schema.Types.ObjectID,
+            ref: "Facility"
+        },
+        forwardingTo: {
+            type: mongoose.Schema.Types.ObjectID,
+            ref: "Facility"
+        }, 
+        time: {
+            type: Date,
+            default: new Date() 
+        }, 
+        reason: {
+            type: String
+        }
     }
   
 })
