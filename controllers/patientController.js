@@ -64,7 +64,7 @@ exports.update = (req, res)=>{
                 Patient.updateOne(
                     {id: req.params.id},
                     {
-                        // facility_referred_to: req.body.facility_referred_to_id,
+                        facility_referred_to: req.body.facility_referred_to_id,
                         // facility_referred_from: req.body.facility_referred_from_id,
                         firstname: req.body.firstname,
                         middlename: req.body.middlename,
