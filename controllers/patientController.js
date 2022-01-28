@@ -64,8 +64,8 @@ exports.update = (req, res)=>{
                 Patient.updateOne(
                     {id: req.params.id},
                     {
-                        facility_referred_to: req.body.facility_referred_to_id,
-                        facility_referred_from: req.body.facility_referred_from_id,
+                        // facility_referred_to: req.body.facility_referred_to_id,
+                        // facility_referred_from: req.body.facility_referred_from_id,
                         firstname: req.body.firstname,
                         middlename: req.body.middlename,
                         lastname: req.body.lastname,
@@ -84,7 +84,7 @@ exports.update = (req, res)=>{
                         treatment: req.body.treatment,
                         reason_for_referral: req.body.reason_for_referral,
                         commitment_for_next_level: req.body.commitment_for_next_level,
-                        officer: req.body.officer_id 
+                        // officer: req.body.officer_id 
                     }
                 ) .then(update=>{
                     Patient.findOne({id: req.params.id}).then(patient=>{
